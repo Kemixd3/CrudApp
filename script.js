@@ -76,7 +76,6 @@ function addProduct() {
 
   
   //Clear form fields
-  // <textarea id="normalPris" name="normalPris" required></textarea><br>
   document.getElementById("name").value = "";
   document.getElementById("normalPris").value = "";
   document.getElementById("link").value = "";
@@ -88,7 +87,7 @@ function addProduct() {
 
   
 
-const productForm = document.getElementById('pokemon-form');
+const productForm = document.getElementById('product-form');
 
 //Call toggleForm to minimize the form initially
 toggleForm(productForm);
@@ -314,10 +313,6 @@ function editProduct(id, name, productLink, link, normalPris, createdAt, tilbuds
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
       location.reload();
       return response.json();
     } catch (error) {

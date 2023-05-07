@@ -14,25 +14,16 @@
     <form id="product-form" style="display:block;" hidden>
       <h3>Her kan du tilføje et nyt produkt til tilbudskataloget ved at trykke "Tilgøj produkt" knappen</h3> 
       <h3>For at redigere i et produkt, tryk "se mere" på produktet og så opdater knappen</h3>
-      <label for="name">Produkt navn</label>
-      <input type="text" id="name" name="name" required><br><br>
-     
-     
+
+      <input placeholder="Produkt navn" type="text" id="name" name="name" required><br><br>
+
+      <input placeholder="Link til produkt siden" type="text" id="productLink" name="productLink" required><br><br>
+
+      <input placeholder="Link til billede" type="text" id="link" name="link" required><br><br>
+
+      <input placeholder="Normalpris" type="text" id="normalPris" name="normalPris" required><br><br>
     
-      <label for="productLink">Link til produkt siden:</label>
-      <input type="text" id="productLink" name="productLink" required><br><br>
-
-
-
-      <label for="link">Link til billede:</label>
-      <input type="text" id="link" name="link" required><br><br>
-
-      <label for="normalPris">Normalpris</label>
-
-      <input type="text" id="normalPris" name="normalPris" required><br><br>
-    
-      <label for="tilbudsPris">Tilbudspris</label>
-      <input type="text" id="tilbudsPris" name="tilbudsPris" required><br><br>
+      <input placeholder="Tilbudspris" type="text" id="tilbudsPris" name="tilbudsPris" required><br><br>
     
       <button id="product-add" type="button" onclick="addProduct();toggleForm()" >Tilføj produkt</button>
       <button id="update-product-button" type="button" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
@@ -45,33 +36,20 @@
   </div>
   
 
-<!-- product Dialog -->
-<dialog id="product-dialog">
-  <div id="product-dialog-content"></div>
-  <button id="close-dialog-btn">Close</button>
-</dialog>
-
-
 
 <footer style="font-size: 1vw; height: 8%; background-color: rgb(154, 154, 159); bottom: 0; left: 0; right: 0;">
-  <div class="pokeball"></div>
+  <div class="productC"></div>
     <h3>Tilbudskatalog koncept hjemmeside</h3>
     <h3>Produkt catalog by Nikolai Berthesen and Silas Sandager, DATAv2</h3>
-  <div class="pokeball"></div>
+  <div class="productC"></div>
 </footer>
 
     <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script>
     <script src="script.js"></script>
     <script type="module">
-      // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-    
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
       const firebaseConfig = {
         apiKey: "AIzaSyBuWPU0zqYMOcDZqhBj6lYhJ1Clo8hoFfI",
         authDomain: "javascriptgame-4e4c9.firebaseapp.com",

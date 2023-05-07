@@ -32,7 +32,6 @@ form {
     margin: 10px;
     padding: 10px;
     text-align: center;
-    
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
     border: 2px solid #ccc;
     align-items: center;
@@ -157,7 +156,7 @@ header h1, footer h3 {
 
 
 
-footer .pokeball:before, footer .pokeball:after {
+footer .productC:before, footer .productC:after {
   transform: scaleX(-1);
   
 
