@@ -88,7 +88,7 @@ function addProduct() {
 
   
 
-const productForm = document.getElementById('product-form');
+const productForm = document.getElementById('pokemon-form');
 
 //Call toggleForm to minimize the form initially
 toggleForm(productForm);
@@ -105,6 +105,7 @@ function toggleForm() {
     minimizeButton.innerHTML = "Tilføj nyt tilbud";
   }
 }
+
 
 
 
@@ -129,7 +130,7 @@ searchInput.addEventListener("input", function() {
         // Display the results
         for (var key in data) {
           if (data.hasOwnProperty(key)) {
-            if (data[key].name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            if (String(data[key].name).toLowerCase().includes(searchTerm.toLowerCase())) {
               console.log(data[key]);
               var card = document.createElement("div");
               card.innerHTML = "<h3>" + data[key].name + "</h3>" +
@@ -161,19 +162,7 @@ searchInput.addEventListener("input", function() {
 //Update product data function
 function updateProduct(id, name, productLink, normalPris, link, tilbudsPris) {
   dialog.close();
-  fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
-    method: 'PUT',
-    body: JSON.stringify({
-      name: name,
-      productLink: productLink,
-      normalPris: normalPris,
-      link: link,
-      tilbudsPris: tilbudsPris,
-    }),
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error));
+
 }
 
 
@@ -206,7 +195,7 @@ database.ref('product').on('child_added', function(data) {
   card.className = "product-card";
   card.id = "card-" + data.key;
   card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
-  if (product.link.includes("http")) {
+  if (product.link && product.link.includes("http")) {
     card.innerHTML += "<img src='" + product.link + "'>";
   }
 
@@ -270,29 +259,46 @@ database.ref('product').on('child_added', function(data) {
 
 
 //Edit product data
-function editProduct(id, name, productLink, normalPris, link, tilbudsPris) {
+function editProduct(id, name, productLink, normalPris, tilbudsPris) {
   document.getElementById("name").value = name;
-
   document.getElementById("productLink").value = productLink;
   document.getElementById("normalPris").value = normalPris;
-  document.getElementById("link").value = link;
+  
   document.getElementById("tilbudsPris").value = tilbudsPris;
-
-
-
-  dialog.close();
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-
+  console.log(id)
   document.getElementById('product-add').style.visibility = 'hidden';
   var updateButton = document.getElementById("update-product-button");
   updateButton.style.display = "block";
-  updateButton.onclick = function() {
-    updateProduct(id, document.getElementById("name").value, document.getElementById("productLink").value, document.getElementById("normalPris").value, document.getElementById("link").value, document.getElementById("tilbudsPris").value);
-    document.getElementById("add-product-button").innerHTML = "Add Product";
-    document.getElementById("add-product-button").onclick = addProduct;
-    document.getElementById("product-form").reset();
-  };
+  updateButton.onclick = function(event) {
+    console.log("runs")
+    
+    var updatedName = document.getElementById("name").value;
+    var updatedProductLink = document.getElementById("productLink").value;
+    var updatedNormalPris = document.getElementById("normalPris").value;
+  
+    var updatedTilbudsPris = document.getElementById("tilbudsPris").value;
+  
+    fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: id,
+        name: updatedName,
+        productLink: updatedProductLink,
+        normalPris: updatedNormalPris,
+       
+        tilbudsPris: updatedTilbudsPris,
+      })
+    })
+    .then(response => {
+    
+      return response.json();
+   
+    });
+  }
 }
+
 
 

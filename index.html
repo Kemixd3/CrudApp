@@ -19,8 +19,7 @@
       <label for="name">Produkt navn</label>
       <input type="text" id="name" name="name" required><br><br>
      
-      <label for="link">Billede url af produktet</label>
-      <input type="text" id="link" name="link" required><br><br>
+     
     
       <label for="productLink">Link til produkt siden:</label>
       <input type="text" id="productLink" name="productLink" required><br><br>
@@ -31,7 +30,7 @@
       <input type="text" id="tilbudsPris" name="tilbudsPris" required><br><br>
     
       <button id="product-add" type="button" onclick="addProduct();toggleForm()" >Tilføj produkt</button>
-      <button id="update-product-button" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+      <button id="update-product-button" onclick="editProduct();" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
     </form>
     
     <div style="text-align: center;" id="results"></div>
