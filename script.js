@@ -44,17 +44,21 @@ function addPokemon() {
 
   var normalPris = document.getElementById("normalPris").value;
   var tilbudsPris = document.getElementById("tilbudsPris").value;
+  var date = new Date();
+  var options1 = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'Europe/Copenhagen' };
+  var formattedDate = date.toLocaleString('da-DK', options1);
   
   //Push product data to the database
 
   const url = 'https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product.json';
-  
+
   const data = {
     name: name,
     normalPris: normalPris,
     link: link,
     productLink: productLink,
-    tilbudsPris: tilbudsPris
+    tilbudsPris: tilbudsPris,
+    createdAt: formattedDate // Add current date to the data object
   };
   
   const options = {
@@ -206,7 +210,8 @@ database.ref('product').on('child_added', function(data) {
   if (pokemon.link.includes("http")) {
     card.innerHTML += "<img src='" + pokemon.link + "'>";
   }
-  
+  card.innerHTML += "<p>" + "Oprettet:" + " " + pokemon.createdAt + "</p>";
+
   card.innerHTML += "<button style='float: right;' class='view-more-btn'>Se mere</button>";
   var button = card.querySelector('.view-more-btn');
   button.style.position = "absolute";
