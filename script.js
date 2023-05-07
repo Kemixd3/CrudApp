@@ -247,6 +247,7 @@ database.ref('product').on('child_added', function(data) {
 "<button onclick='deleteProduct(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
 "<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
  ;
+
   dialog.id = "dialog-" + data.key;
   card.appendChild(dialog);
   
@@ -255,6 +256,7 @@ database.ref('product').on('child_added', function(data) {
   updateMaximize.addEventListener('click', function() {
     console.log("TEST")
     toggleForm(productForm);
+    dialog.close();
   });
 
 
