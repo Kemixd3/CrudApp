@@ -74,19 +74,12 @@ function addProduct() {
     .then(data => console.log('New product added:', data))
     .catch(error => console.error('Error adding new product:', error));
 
-  
-  //Clear form fields
-  // <textarea id="normalPris" name="normalPris" required></textarea><br>
   document.getElementById("name").value = "";
   document.getElementById("normalPris").value = "";
   document.getElementById("link").value = "";
   document.getElementById("productLink").value = "";
   document.getElementById("tilbudsPris").value = "";
-
-
 }
-
-  
 
 const productForm = document.getElementById('product-form');
 
@@ -107,11 +100,6 @@ function toggleForm() {
 }
 
 
-
-
-
-
-
 var searchInput = document.getElementById("search");
 var resultsDiv = document.getElementById("results");
 
@@ -125,7 +113,7 @@ searchInput.addEventListener("input", function() {
       .then(data => {
         // Clear previous results
         resultsDiv.innerHTML = "";
-  
+        
         // Display the results
         for (var key in data) {
           if (data.hasOwnProperty(key)) {
@@ -133,8 +121,8 @@ searchInput.addEventListener("input", function() {
               console.log(data[key]);
               var card = document.createElement("div");
               card.innerHTML = "<h3>" + data[key].name + "</h3>" +
-                               "<img src='" + data[key].productLink + "' alt='" + data[key].name + "'>" +
-                               "<p></p>";
+              "<img src='" + data[key].productLink + "' alt='" + data[key].name + "'>" +
+              "<p></p>";
               resultsDiv.appendChild(card);
             }
           }
@@ -144,36 +132,42 @@ searchInput.addEventListener("input", function() {
     }
   });
   
-
-
-
-
-
   // Get the search term
-
-
-
+  
 });
-
-
-
-
 //Update product data function
-function updateProduct(id, name, productLink, normalPris, link, tilbudsPris) {
-  dialog.close();
-  fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
+function updateProduct(name, productLink, normalPris, link, tilbudsPris) {
+  var dialog = document.querySelector('dialog');
+
+  var h1 = dialog.querySelector('h1');
+  
+  var value = h1.textContent.trim();
+  var id = value.slice(1, -1);
+
+  console.log('Updating product:',id, name, productLink, normalPris, link, tilbudsPris);
+
+
+  fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {    
     method: 'PUT',
     body: JSON.stringify({
+      id:id,
       name: name,
       productLink: productLink,
       normalPris: normalPris,
       link: link,
-      tilbudsPris: tilbudsPris,
+      tilbudsPris: tilbudsPris
     }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
   .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error));
+  .then(data => console.log('Product updated:', data))
+  .catch(error => console.error('Error updating product:', error));
+  dialog.close();
+  location.reload();
+
+  toggleForm(); 
 }
 
 
@@ -206,7 +200,7 @@ database.ref('product').on('child_added', function(data) {
   card.className = "product-card";
   card.id = "card-" + data.key;
   card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
-  if (product.link.includes("http")) {
+  if (product.link && product.link.includes("http")) {
     card.innerHTML += "<img src='" + product.link + "'>";
   }
 
@@ -230,19 +224,16 @@ database.ref('product').on('child_added', function(data) {
   });
   
   
-  if (!product.productLink.includes("http")) {
-    console.log("issue")
-    dialog.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
-  } else {
-    dialog.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + product.productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
-    console.log("No issue")
+
+  dialog.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + product.productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
     
-  }
   
-  dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + data.key + "\", \"" + product.name + "\", \"" + product.productLink + "\", \"" + product.normalPris + "\", \"" + product.link + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
+  
+  dialog.innerHTML += "<button class='editBtn' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
 "<button onclick='deleteProduct(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
-"<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
- ;
+"<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>" + "<h1>\"" + data.key + "\"</h1>" 
+; 
+
   dialog.id = "dialog-" + data.key;
   card.appendChild(dialog);
   
@@ -264,34 +255,5 @@ database.ref('product').on('child_added', function(data) {
     dialog.close();
   });
 });
-
-
-
-//Edit product data
-function editProduct(id, name, productLink, normalPris, link, tilbudsPris) {
-  document.getElementById("name").value = name;
-
-  document.getElementById("productLink").value = productLink;
-  document.getElementById("normalPris").value = normalPris;
-  document.getElementById("link").value = link;
-  document.getElementById("tilbudsPris").value = tilbudsPris;
-
-
-
-  dialog.close();
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-
-  var updateButton = document.getElementById("product-add");
-  updateButton.onclick = function() {
-    updateProduct(id, 
-      document.getElementById("name").value, 
-      document.getElementById("productLink").value, 
-      document.getElementById("normalPris").value, 
-      document.getElementById("link").value, 
-      document.getElementById("tilbudsPris").value
-    );
-  };
-}
 
 
