@@ -23,14 +23,21 @@
     
       <label for="productLink">Link til produkt siden:</label>
       <input type="text" id="productLink" name="productLink" required><br><br>
+
+
+
+      <label for="link">Link til billede:</label>
+      <input type="text" id="link" name="link" required><br><br>
+
       <label for="normalPris">Normalpris</label>
+
       <input type="text" id="normalPris" name="normalPris" required><br><br>
     
       <label for="tilbudsPris">Tilbudspris</label>
       <input type="text" id="tilbudsPris" name="tilbudsPris" required><br><br>
     
       <button id="product-add" type="button" onclick="addProduct();toggleForm()" >Tilføj produkt</button>
-      <button id="update-product-button" onclick="editProduct();" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+      <button id="update-product-button" type="button" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
     </form>
     
     <div style="text-align: center;" id="results"></div>
@@ -48,7 +55,7 @@
 
 
 
-<footer style="font-size: 1vw; height: 8%; background-color: rgb(154, 154, 159);  position: fixed; bottom: 0; left: 0; right: 0;">
+<footer style="font-size: 1vw; height: 8%; background-color: rgb(154, 154, 159); bottom: 0; left: 0; right: 0;">
   <div class="pokeball"></div>
     <h3>Tilbudskatalog koncept hjemmeside</h3>
     <h3>Produkt catalog by Nikolai Berthesen and Silas Sandager, DATAv2</h3>

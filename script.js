@@ -120,7 +120,7 @@ var resultsDiv = document.getElementById("results");
 searchInput.addEventListener("input", function() {
   var searchTerm = searchInput.value;
   document.addEventListener("keydown", function(event) {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && searchTerm !=' ') { // Check if searchTerm is not empty
       fetch("https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product.json?orderBy=\"name\"")
       .then(response => response.json())
       .then(data => {
@@ -134,9 +134,22 @@ searchInput.addEventListener("input", function() {
               console.log(data[key]);
               var card = document.createElement("div");
               card.innerHTML = "<h3>" + data[key].name + "</h3>" +
-                               "<img src='" + data[key].productLink + "' alt='" + data[key].name + "'>" +
-                               "<p></p>";
-              resultsDiv.appendChild(card);
+              "<img style='max-width:300px' src='" + data[key].link + "' alt='" + data[key].name + "'>" +
+              "<p></p>";
+            card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + data[key].normalPris + "</span> <strong>" + data[key].tilbudsPris +"</strong></h3>";
+            if (!String(data[key].productLink).includes("http")) {
+              console.log("issue")
+              card.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
+            } else {
+              card.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + data[key].productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
+              console.log("No issue")
+            }
+            // Add styles to the card element
+            card.style.border = "1px solid #ccc";
+            card.style.padding = "10px";
+            
+            resultsDiv.appendChild(card);
+            
             }
           }
         }
@@ -144,7 +157,8 @@ searchInput.addEventListener("input", function() {
       .catch(error => console.error(error));
     }
   });
-  
+});
+
 
 
 
@@ -154,7 +168,7 @@ searchInput.addEventListener("input", function() {
 
 
 
-});
+
 
 
 
@@ -195,6 +209,7 @@ database.ref('product').on('child_added', function(data) {
   card.className = "product-card";
   card.id = "card-" + data.key;
   card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
+
   if (product.link && product.link.includes("http")) {
     card.innerHTML += "<img src='" + product.link + "'>";
   }
@@ -218,7 +233,6 @@ database.ref('product').on('child_added', function(data) {
     }
   });
   
-  
   if (!product.productLink.includes("http")) {
     console.log("issue")
     dialog.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
@@ -227,9 +241,9 @@ database.ref('product').on('child_added', function(data) {
     console.log("No issue")
     
   }
+
   
-  
-  dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + data.key + "\", \"" + product.name + "\", \"" + product.productLink + "\", \"" + product.normalPris + "\", \"" + product.link + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
+  dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + data.key + "\", \"" + product.name + "\", \"" + product.productLink + "\",  \"" + product.link + "\", \"" + product.normalPris + "\", \"" + product.createdAt + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
 "<button onclick='deleteProduct(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
 "<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
  ;
@@ -259,9 +273,11 @@ database.ref('product').on('child_added', function(data) {
 
 
 //Edit product data
-function editProduct(id, name, productLink, normalPris, tilbudsPris) {
+function editProduct(id, name, productLink, link, normalPris, createdAt, tilbudsPris) {
+  console.log(createdAt);
   document.getElementById("name").value = name;
   document.getElementById("productLink").value = productLink;
+  document.getElementById("link").value = link;
   document.getElementById("normalPris").value = normalPris;
   
   document.getElementById("tilbudsPris").value = tilbudsPris;
@@ -269,36 +285,46 @@ function editProduct(id, name, productLink, normalPris, tilbudsPris) {
   document.getElementById('product-add').style.visibility = 'hidden';
   var updateButton = document.getElementById("update-product-button");
   updateButton.style.display = "block";
-  updateButton.onclick = function(event) {
-    console.log("runs")
+  updateButton.onclick = async function() {
+    console.log("runs");
     
     var updatedName = document.getElementById("name").value;
     var updatedProductLink = document.getElementById("productLink").value;
+    var updatedLink = document.getElementById("link").value;
     var updatedNormalPris = document.getElementById("normalPris").value;
-  
     var updatedTilbudsPris = document.getElementById("tilbudsPris").value;
-  
-    fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: id,
-        name: updatedName,
-        productLink: updatedProductLink,
-        normalPris: updatedNormalPris,
-       
-        tilbudsPris: updatedTilbudsPris,
-      })
-    })
-    .then(response => {
     
+    try {
+      const response = await fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: id,
+          name: updatedName,
+          productLink: updatedProductLink,
+          normalPris: updatedNormalPris,
+          tilbudsPris: updatedTilbudsPris,
+          link: updatedLink,
+          createdAt: createdAt,
+         
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      location.reload();
       return response.json();
-   
-    });
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
   }
 }
+
+
 
 
 
