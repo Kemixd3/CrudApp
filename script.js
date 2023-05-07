@@ -239,7 +239,6 @@ database.ref('product').on('child_added', function(data) {
     
   }
   
-  
   dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + data.key + "\", \"" + product.name + "\", \"" + product.productLink + "\", \"" + product.normalPris + "\", \"" + product.link + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
 "<button onclick='deleteProduct(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
 "<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
@@ -250,7 +249,6 @@ database.ref('product').on('child_added', function(data) {
 
   var updateMaximize = card.querySelector('.editBtn');
   updateMaximize.addEventListener('click', function() {
-    console.log("TEST")
     toggleForm(productForm);
   });
 
@@ -284,14 +282,15 @@ function editProduct(id, name, productLink, normalPris, link, tilbudsPris) {
   $('html, body').animate({ scrollTop: 0 }, 'fast');
 
 
-  document.getElementById('product-add').style.visibility = 'hidden';
-  var updateButton = document.getElementById("update-product-button");
-  updateButton.style.display = "block";
+  var updateButton = document.getElementById("product-add");
   updateButton.onclick = function() {
-    updateProduct(id, document.getElementById("name").value, document.getElementById("productLink").value, document.getElementById("normalPris").value, document.getElementById("link").value, document.getElementById("tilbudsPris").value);
-    document.getElementById("add-product-button").innerHTML = "Add Product";
-    document.getElementById("add-product-button").onclick = addProduct;
-    document.getElementById("product-form").reset();
+    updateProduct(id, 
+      document.getElementById("name").value, 
+      document.getElementById("productLink").value, 
+      document.getElementById("normalPris").value, 
+      document.getElementById("link").value, 
+      document.getElementById("tilbudsPris").value
+    );
   };
 }
 
