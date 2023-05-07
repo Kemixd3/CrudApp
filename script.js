@@ -35,7 +35,7 @@ var database = firebase.database();
 
 
 //Handle form submission
-function addPokemon() {
+function addProduct() {
   //Get form values from the form
   var name = document.getElementById("name").value;
   var productLink = document.getElementById("productLink").value;
@@ -201,23 +201,19 @@ database.ref('product').on('child_added', function(data) {
   var card = document.createElement("div");
   card.className = "pokemon-card";
   card.id = "card-" + data.key;
-  card.innerHTML = "<h2>" + "Produkt navn:" + " " + pokemon.name + "</h2>";
-  
+  card.innerHTML = "<h1 style='text-align: center;'>" + pokemon.name + "</h1>";
   if (pokemon.link.includes("http")) {
     card.innerHTML += "<img src='" + pokemon.link + "'>";
   }
+  card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + pokemon.normalPris + "</span> <strong>" + pokemon.tilbudsPris +"</strong></h3>";
   
-  card.innerHTML += "<button style='float: right;' class='view-more-btn'>Se mere</button>";
+  card.innerHTML += "<button style='width: 30%; display: block; margin: 0 auto;' class='view-more-btn'>Se mere</button>";
   var button = card.querySelector('.view-more-btn');
-  button.style.position = "absolute";
-  button.style.bottom = "10px"; 
-  button.style.right = "10px";
-  card.style.position = "relative";
+  button.style.textAlign = "center";
   
   pokemonCards.appendChild(card);
   var dialog = document.createElement("dialog");
-  dialog.innerHTML = "<p>Normalpris: " + pokemon.normalPris + "</p>" +
-  "<p>Tilbudspris: " + pokemon.tilbudsPris + "</p>";
+  dialog.innerHTML = "";
   
 
   database.ref('product').on('child_removed', function(data) {
@@ -288,7 +284,7 @@ function editPokemon(id, name, productLink, normalPris, link, tilbudsPris) {
     updatePokemon(id, document.getElementById("name").value, document.getElementById("productLink").value, document.getElementById("normalPris").value, document.getElementById("link").value, document.getElementById("tilbudsPris").value);
     
     document.getElementById("add-pokemon-button").innerHTML = "Add Pokemon";
-    document.getElementById("add-pokemon-button").onclick = addPokemon;
+    document.getElementById("add-pokemon-button").onclick = addProduct;
     document.getElementById("pokemon-form").reset();
   };
 }
