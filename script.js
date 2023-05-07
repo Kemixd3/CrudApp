@@ -11,20 +11,8 @@ window.addEventListener("scroll", () => {
 const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app";
 
 //Initialize Firebase realtime database
-var firebaseConfig = {
-  apiKey: "AIzaSyBuWPU0zqYMOcDZqhBj6lYhJ1Clo8hoFfI",
-  authDomain: "javascriptgame-4e4c9.firebaseapp.com",
-  databaseURL: "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "javascriptgame-4e4c9",
-  storageBucket: "javascriptgame-4e4c9.appspot.com",
-  messagingSenderId: "929889109178",
-  appId: "1:929889109178:web:b4b41c9bf29de88d7c6e83",
-  measurementId: "G-P40H8CJHRK"
-};
-firebase.initializeApp(firebaseConfig);
 
-//Get a reference to the database service
-var database = firebase.database();
+
 
 window.addEventListener("load", init);
 
@@ -40,8 +28,10 @@ async function addProduct() {
   var options1 = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'Europe/Copenhagen' };
   var formattedDate = date.toLocaleString('da-DK', options1);
 
-  const url = 'https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product.json';
 
+  //Push product data to the database
+
+  const url = `${endpoint}/product.json`;
   const data = {
     name: name,
     normalPris: normalPris,
@@ -68,6 +58,12 @@ async function addProduct() {
 
   form.reset();
   location.reload();
+
+
+
+ 
+
+  //Call toggleForm to minimize the form initially
   toggleForm();
 }
 
@@ -83,6 +79,7 @@ function toggleForm() {
   }
 }
 
+
 const searchInput = document.getElementById("search");
 const resultsDiv = document.getElementById("results");
 
@@ -90,7 +87,7 @@ searchInput.addEventListener("input", async () => {
   const searchTerm = searchInput.value.toLowerCase().trim();
   if (searchTerm === '') return;
   try {
-    const response = await fetch("https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product.json?orderBy=\"name\"");
+    const response = await fetch(`${endpoint}/product.json?orderBy=\"name\"`);
     const data = await response.json();
     resultsDiv.innerHTML = '';
     for (const [key, value] of Object.entries(data)) {
@@ -114,11 +111,25 @@ searchInput.addEventListener("input", async () => {
 
 //Delete product data function using id
 async function deleteProduct(id) {
-  const response = await fetch(`https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/${id}.json`, {
+
+  await fetch(`${endpoint}/product/${id}.json`, {
     method: 'DELETE'
-  });
-  const json = await response.json();
+  })
+  
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('product successfully deleted:', data);
+    })
+    .catch(error => {
+      console.error('There was a problem deleting the product:', error);
+    });
   location.reload();
+
 }
 
 //Display product cards and dialog (NOT REST CALL)
@@ -166,8 +177,10 @@ async function init() {
         dialog.id = "dialog-" + key;
         card.appendChild(dialog);
 
+
         var updateMaximize = card.querySelector('.editBtn');
         updateMaximize.addEventListener('click', function () {
+
           toggleForm();
           dialog.close();
         });
