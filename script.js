@@ -211,7 +211,7 @@ database.ref('product').on('child_added', function(data) {
   card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
 
   if (product.link && product.link.includes("http")) {
-    card.innerHTML += "<img src='" + product.link + "'>";
+    card.innerHTML += "<img style='margin: auto;' src='" + product.link + "'>";
   }
 
   card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + product.normalPris + "</span> <strong>" + product.tilbudsPris +"</strong></h3>";
