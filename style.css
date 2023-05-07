@@ -28,7 +28,7 @@ form {
     cursor: pointer;
   }
   
-  .pokemon-card {
+  .product-card {
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -36,11 +36,11 @@ form {
     min-height: 100px;
   }
   
-  .pokemon-card h2 {
+  .product-card h2 {
     margin-top: 0;
   }
   
-  .pokemon-card img {
+  .product-card img {
     max-width: 100%;
   }
   
@@ -63,12 +63,12 @@ form {
 
 
 
-.pokemon-card h2 {
+.product-card h2 {
 margin-top: 0;
 
 }
 
-.pokemon-card img {
+.product-card img {
 width: 500px;
 height: 200px;
 object-fit: contain;
@@ -112,7 +112,7 @@ transition: background-color 0.3s ease;
 background-color: #999;
 }
 
-.pokemon-grid {
+.product-grid {
   display: grid;
   
   grid-template-rows: auto;
@@ -122,7 +122,7 @@ background-color: #999;
   align-items: center;
 }
 
-#pokemon-cards {
+#product-cards {
   display: grid;
   
   grid-template-rows: auto;
