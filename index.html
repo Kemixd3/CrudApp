@@ -2,62 +2,36 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css" type="text/css">
-    <title>Produkt catalog by Nikolai Berthesen and Silas Sandager, DATAv2</title>
+    <title>Ugens Tilbudskatalog</title>
   </head>
   <body>
-    <header id="myHeader" style="display: flex; justify-content: center; align-items: center; height: 150px; position: sticky; top: 0; ">
-      <div style="text-align: center;">
-        <h1>Tilbudskatalog for ugens bedste tilbud</h1>
-        <input type="text" id="search" placeholder="Søg efter navn..." name="search" required style="border: none; border-radius: 50px; padding: 10px 20px; background-color: rgba(0, 0, 0, 0.5); color: white; font-size: 18px;">
-   
-        
-        <button id="minimize-form" type="button" onclick="toggleForm()" style="background-color: #ffcb05; border: none; color: #333; font-size: 20px; padding: 12px 24px; text-align: center; text-decoration: none; display: inline-block; margin: 20px; cursor: pointer; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out;">Minimize</button>
-      
-      
-      
-      
-      
-      
-      </div>
-    
-      
+    <header id="myHeader" style="display: flex; height: 20%; position: sticky; top: 0; font-size: 1vw; background-color: rgb(154, 154, 159);">
+      <h1>Ugens Tilbudskatalog</h1>
+      <input type="text" id="search" placeholder="Søg efter navn..." name="search" required style="border: none; border-radius: 4%; padding: 1% 3%; background-color: rgba(0, 0, 0, 0.5); color: white; font-size: 1vw;">
+
+      <button id="minimize-form" type="button" onclick="toggleForm()" style="background-color: #ffcb05; border: none; color: #333; font-size: 1vw; padding: 1% 3%; text-align: center; text-decoration: none; display: inline-block; margin: 20px; cursor: pointer; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out;">Minimize</button>
     </header>
     
 
-
-    
     <form id="pokemon-form" style="display:block;" hidden>
-
       <h3>Her kan du tilføje et nyt produkt til tilbudskataloget ved at trykke "Tilgøj produkt" knappen</h3> 
       <h3>For at redigere i et produkt, tryk "se mere" på produktet og så opdater knappen</h3>
       <label for="name">Produkt navn</label>
-      <input type="text" id="name" name="name" required><br>
-    
-      
-    
-      
+      <input type="text" id="name" name="name" required><br><br>
      
-
-      <label for="link">Billede url af produktet (ikke required)</label>
-      <input type="text" id="link" name="link" required><br>
+      <label for="link">Billede url af produktet</label>
+      <input type="text" id="link" name="link" required><br><br>
     
       <label for="productLink">Link til produkt siden:</label>
-      <input type="text" id="productLink" name="productLink" required><br>
+      <input type="text" id="productLink" name="productLink" required><br><br>
       <label for="normalPris">Normalpris</label>
-      <input type="text" id="normalPris" name="normalPris" required><br>
+      <input type="text" id="normalPris" name="normalPris" required><br><br>
     
       <label for="tilbudsPris">Tilbudspris</label>
-      <input type="text" id="tilbudsPris" name="tilbudsPris" required><br>
+      <input type="text" id="tilbudsPris" name="tilbudsPris" required><br><br>
     
-  
-      <button id="pokemon-add" type="button" onclick="addPokemon()">Tilføj produkt</button>
+      <button id="pokemon-add" type="button" onclick="addProduct();toggleForm()" >Tilføj produkt</button>
       <button id="update-pokemon-button" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
-
-     
-    
-      
-      
-      
     </form>
     
     <div style="text-align: center;" id="results"></div>
@@ -75,11 +49,10 @@
 
 
 
-<footer>
-  
+<footer style="font-size: 1vw; height: 8%; background-color: rgb(154, 154, 159);  position: fixed; bottom: 0; left: 0; right: 0;">
   <div class="pokeball"></div>
-
-  <h3>Tilbudskatalog koncept hjemmeside</h3>
+    <h3>Tilbudskatalog koncept hjemmeside</h3>
+    <h3>Produkt catalog by Nikolai Berthesen and Silas Sandager, DATAv2</h3>
   <div class="pokeball"></div>
 </footer>
 
