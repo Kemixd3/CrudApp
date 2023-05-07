@@ -15,6 +15,9 @@ window.onscroll = function() {
 
 
 
+const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app";
+
+
 //Initialize Firebase realtime database
 var firebaseConfig = {
   apiKey: "AIzaSyBuWPU0zqYMOcDZqhBj6lYhJ1Clo8hoFfI",
@@ -33,9 +36,11 @@ var database = firebase.database();
 
 
 
+window.addEventListener("load", init);
+
 
 //Handle form submission
-function addProduct() {
+async function addProduct() {
   //Get form values from the form
   var name = document.getElementById("name").value;
   var productLink = document.getElementById("productLink").value;
@@ -69,7 +74,7 @@ function addProduct() {
     }
   };
   
-  fetch(url, options)
+  await fetch(url, options)
     .then(response => response.json())
     .then(data => console.log('New product added:', data))
     .catch(error => console.error('Error adding new product:', error));
@@ -83,7 +88,7 @@ function addProduct() {
   document.getElementById("productLink").value = "";
   document.getElementById("tilbudsPris").value = "";
 
-
+  location.reload();
 }
 
   
@@ -170,20 +175,9 @@ searchInput.addEventListener("input", function() {
 
 
 
-
-
-
-//Update product data function
-function updateProduct(id, name, productLink, normalPris, link, tilbudsPris) {
-  dialog.close();
-
-}
-
-
-
 //Delete product data function using id
-function deleteProduct(id) {
-  fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
+async function deleteProduct(id) {
+  await fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
     method: 'DELETE'
   })
   .then(response => {
@@ -198,58 +192,57 @@ function deleteProduct(id) {
   .catch(error => {
     console.error('There was a problem deleting the product:', error);
   });
+  location.reload();
+  
 }
 
 
 //Display product cards and dialog (NOT REST CALL)
 var productCards = document.getElementById("product-cards");
-database.ref('product').on('child_added', function(data) {
-  var product = data.val();
-  var card = document.createElement("div");
-  card.className = "product-card";
-  card.id = "card-" + data.key;
-  card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
 
-  if (product.link && product.link.includes("http")) {
-    card.innerHTML += "<img style='margin: auto;' src='" + product.link + "'>";
-  }
 
-  card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + product.normalPris + "</span> <strong>" + product.tilbudsPris +"</strong></h3>";
-  card.innerHTML += "<p>" + "Oprettet:" + " " + product.createdAt + "</p>";
-  card.innerHTML += "<button style='width: 30%; display: block; margin: 0 auto;' class='view-more-btn'>Se mere</button>";
+//database.ref('product').on('child_added', 
 
-  var button = card.querySelector('.view-more-btn');
-  button.style.textAlign = "center";
+async function init() {
+  await fetch(`${endpoint}/product.json`)
+  .then(response => response.json())
+  .then(data => {
+    for (const key in data) {
+      const product = data[key];
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.id = "card-" + key;
+      card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
   
-  productCards.appendChild(card);
-  var dialog = document.createElement("dialog");
-  dialog.innerHTML = "";
+      if (product.link && product.link.includes("http")) {
+        card.innerHTML += "<img src='" + product.link + "'>";
+      }
   
-
-  database.ref('product').on('child_removed', function(data) {
-    var productCard = document.getElementById("card-" + data.key);
-    if (productCard != null) {
-      productCard.remove();
-    }
-  });
+      card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + product.normalPris + "</span> <strong>" + product.tilbudsPris +"</strong></h3>";
+      card.innerHTML += "<p>" + "Oprettet:" + " " + product.createdAt + "</p>";
+      card.innerHTML += "<button style='width: 30%; display: block; margin: 0 auto;' class='view-more-btn'>Se mere</button>";
   
-  if (!product.productLink.includes("http")) {
-    console.log("issue")
-    dialog.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
-  } else {
-    dialog.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + product.productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
-    console.log("No issue")
-    
-  }
-
+      const button = card.querySelector('.view-more-btn');
+      button.style.textAlign = "center";
+      
+      productCards.appendChild(card);
+      const dialog = document.createElement("dialog");
+      dialog.innerHTML = "";
+      
+      if (!product.productLink.includes("http")) {
+        console.log("issue")
+        dialog.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
+      } else {
+        dialog.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + product.productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
+        console.log("No issue")
+      }
+      
+      dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + key + "\", \"" + product.name + "\", \"" + product.productLink + "\",  \"" + product.link + "\", \"" + product.normalPris + "\", \"" + product.createdAt + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
+        "<button onclick='deleteProduct(\"" + key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
+        "<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
   
-  dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + data.key + "\", \"" + product.name + "\", \"" + product.productLink + "\",  \"" + product.link + "\", \"" + product.normalPris + "\", \"" + product.createdAt + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
-"<button onclick='deleteProduct(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
-"<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
- ;
-
-  dialog.id = "dialog-" + data.key;
-  card.appendChild(dialog);
+      dialog.id = "dialog-" + key;
+      card.appendChild(dialog);
   
 
   var updateMaximize = card.querySelector('.editBtn');
@@ -259,10 +252,9 @@ database.ref('product').on('child_added', function(data) {
     dialog.close();
   });
 
-
   var viewMoreBtn = card.querySelector('.view-more-btn');
   viewMoreBtn.addEventListener('click', function() {
-    var dialog = document.querySelector("#dialog-" + data.key);
+    var dialog = document.querySelector("#dialog-" + key);
     dialog.showModal();
     
   });
@@ -270,12 +262,17 @@ database.ref('product').on('child_added', function(data) {
   closeDialogBtn.addEventListener("click", function() {
     dialog.close();
   });
+};
 });
+}
+
+
+
 
 
 
 //Edit product data
-function editProduct(id, name, productLink, link, normalPris, createdAt, tilbudsPris) {
+async function editProduct(id, name, productLink, link, normalPris, createdAt, tilbudsPris) {
   console.log(createdAt);
   document.getElementById("name").value = name;
   document.getElementById("productLink").value = productLink;
