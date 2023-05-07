@@ -1,6 +1,4 @@
 "use strict";
-
-
 var prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
   var currentScrollPos = window.pageYOffset;
@@ -11,9 +9,6 @@ window.onscroll = function () {
   }
   prevScrollpos = currentScrollPos;
 }
-
-
-
 
 //Initialize Firebase realtime database
 var firebaseConfig = {
@@ -30,9 +25,6 @@ firebase.initializeApp(firebaseConfig);
 
 //Get a reference to the database service
 var database = firebase.database();
-
-
-
 
 //Handle form submission
 function addProduct() {
@@ -74,15 +66,12 @@ function addProduct() {
     .then(data => console.log('New product added:', data))
     .catch(error => console.error('Error adding new product:', error));
 
-
   //Clear form fields
   document.getElementById("name").value = "";
   document.getElementById("normalPris").value = "";
   document.getElementById("link").value = "";
   document.getElementById("productLink").value = "";
   document.getElementById("tilbudsPris").value = "";
-
-
 }
 
 const productForm = document.getElementById('product-form');
@@ -151,17 +140,7 @@ searchInput.addEventListener("input", function () {
 });
 
 
-
-
-
-
 // Get the search term
-
-
-
-
-
-
 
 
 //Update product data function
@@ -169,8 +148,6 @@ function updateProduct(id, name, productLink, normalPris, link, tilbudsPris) {
   dialog.close();
 
 }
-
-
 
 //Delete product data function using id
 function deleteProduct(id) {
@@ -312,8 +289,3 @@ function editProduct(id, name, productLink, link, normalPris, createdAt, tilbuds
     }
   }
 }
-
-
-
-
-
