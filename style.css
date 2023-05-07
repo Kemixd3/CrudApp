@@ -1,0 +1,177 @@
+form {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  form button[type="button"] {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+
+  
+  .pokemon-card {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-height: 100px;
+  }
+  
+  .pokemon-card h2 {
+    margin-top: 0;
+  }
+  
+  .pokemon-card img {
+    max-width: 100%;
+  }
+  
+  
+
+
+#minimize-form:hover {
+  background-color: #075eff;
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+#minimize-form:active {
+  background-color: #075eff;
+  box-shadow: none;
+  transform: translateY(0px);
+}
+
+
+
+
+
+.pokemon-card h2 {
+margin-top: 0;
+
+}
+
+.pokemon-card img {
+width: 500px;
+height: 200px;
+object-fit: contain;
+}
+
+.view-more-btn {
+background-color: indigo;
+border: none;
+color: white;
+padding: 10px 20px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin-top: 10px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+.view-more-btn:hover {
+background-color: green;
+}
+
+.close-dialog-btn {
+background-color: #ccc;
+border: none;
+color: #fff;
+padding: 10px 20px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin-top: 10px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+.close-dialog-btn:hover {
+background-color: #999;
+}
+
+.pokemon-grid {
+  display: grid;
+  
+  grid-template-rows: auto;
+ 
+
+  justify-content: center;
+  align-items: center;
+}
+
+#pokemon-cards {
+  display: grid;
+  
+  grid-template-rows: auto;
+  margin-right: 0px;
+  max-width: 1000px;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+}
+
+
+header, footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  background-color: #075eff;
+  
+}
+
+header h1, footer h3 {
+  color: #333;
+}
+
+
+
+footer .pokeball:before, footer .pokeball:after {
+  transform: scaleX(-1);
+  
+
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+
+
+

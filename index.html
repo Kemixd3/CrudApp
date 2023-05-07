@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <title>Produkt catalog by Nikolai Berthesen and Silas Sandager, DATAv2</title>
+  </head>
+  <body>
+    <header id="myHeader" style="display: flex; justify-content: center; align-items: center; height: 150px; position: sticky; top: 0; ">
+      <div style="text-align: center;">
+        <h1>Tilbudskatalog for ugens bedste tilbud</h1>
+        <input type="text" id="search" placeholder="Søg efter navn..." name="search" required style="border: none; border-radius: 50px; padding: 10px 20px; background-color: rgba(0, 0, 0, 0.5); color: white; font-size: 18px;">
+   
+        
+        <button id="minimize-form" type="button" onclick="toggleForm()" style="background-color: #ffcb05; border: none; color: #333; font-size: 20px; padding: 12px 24px; text-align: center; text-decoration: none; display: inline-block; margin: 20px; cursor: pointer; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out;">Minimize</button>
+      
+      
+      
+      
+      
+      
+      </div>
+    
+      
+    </header>
+    
+
+
+    
+    <form id="pokemon-form" style="display:block;" hidden>
+
+      <h3>Her kan du tilføje et nyt produkt til tilbudskataloget ved at trykke "Tilgøj produkt" knappen</h3> 
+      <h3>For at redigere i et produkt, tryk "se mere" på produktet og så opdater knappen</h3>
+      <label for="name">Produkt navn</label>
+      <input type="text" id="name" name="name" required><br>
+    
+      
+    
+      
+     
+
+      <label for="link">Billede url af produktet (ikke required)</label>
+      <input type="text" id="link" name="link" required><br>
+    
+      <label for="productLink">Link til produkt siden:</label>
+      <input type="text" id="productLink" name="productLink" required><br>
+      <label for="normalPris">Normalpris</label>
+      <input type="text" id="normalPris" name="normalPris" required><br>
+    
+      <label for="tilbudsPris">Tilbudspris</label>
+      <input type="text" id="tilbudsPris" name="tilbudsPris" required><br>
+    
+  
+      <button id="pokemon-add" type="button" onclick="addPokemon()">Tilføj produkt</button>
+      <button id="update-pokemon-button" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+
+     
+    
+      
+      
+      
+    </form>
+    
+    <div style="text-align: center;" id="results"></div>
+   <!-- Pokemon Cards -->
+   <div class="pokemon-grid">
+    <div id="pokemon-cards"></div>
+  </div>
+  
+
+<!-- Pokemon Dialog -->
+<dialog id="pokemon-dialog">
+  <div id="pokemon-dialog-content"></div>
+  <button id="close-dialog-btn">Close</button>
+</dialog>
+
+
+
+<footer>
+  
+  <div class="pokeball"></div>
+
+  <h3>Tilbudskatalog koncept hjemmeside</h3>
+  <div class="pokeball"></div>
+</footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script>
+    <script src="script.js"></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyBuWPU0zqYMOcDZqhBj6lYhJ1Clo8hoFfI",
+        authDomain: "javascriptgame-4e4c9.firebaseapp.com",
+        databaseURL: "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "javascriptgame-4e4c9",
+        storageBucket: "javascriptgame-4e4c9.appspot.com",
+        messagingSenderId: "929889109178",
+        appId: "1:929889109178:web:b4b41c9bf29de88d7c6e83",
+        measurementId: "G-P40H8CJHRK"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+  <style type="text/css">
+
+    </style>
+  
+  </body>
+</html>
