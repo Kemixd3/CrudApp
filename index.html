@@ -13,7 +13,7 @@
     </header>
     
 
-    <form id="pokemon-form" style="display:block;" hidden>
+    <form id="product-form" style="display:block;" hidden>
       <h3>Her kan du tilføje et nyt produkt til tilbudskataloget ved at trykke "Tilgøj produkt" knappen</h3> 
       <h3>For at redigere i et produkt, tryk "se mere" på produktet og så opdater knappen</h3>
       <label for="name">Produkt navn</label>
@@ -30,20 +30,20 @@
       <label for="tilbudsPris">Tilbudspris</label>
       <input type="text" id="tilbudsPris" name="tilbudsPris" required><br><br>
     
-      <button id="pokemon-add" type="button" onclick="addProduct();toggleForm()" >Tilføj produkt</button>
-      <button id="update-pokemon-button" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+      <button id="product-add" type="button" onclick="addProduct();toggleForm()" >Tilføj produkt</button>
+      <button id="update-product-button" type="submit" style="background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: none; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px; cursor: pointer;">Update</button>
     </form>
     
     <div style="text-align: center;" id="results"></div>
-   <!-- Pokemon Cards -->
-   <div class="pokemon-grid">
-    <div id="pokemon-cards"></div>
+   <!-- product Cards -->
+   <div class="product-grid">
+    <div id="product-cards"></div>
   </div>
   
 
-<!-- Pokemon Dialog -->
-<dialog id="pokemon-dialog">
-  <div id="pokemon-dialog-content"></div>
+<!-- product Dialog -->
+<dialog id="product-dialog">
+  <div id="product-dialog-content"></div>
   <button id="close-dialog-btn">Close</button>
 </dialog>
 

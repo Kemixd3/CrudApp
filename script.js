@@ -88,14 +88,14 @@ function addProduct() {
 
   
 
-const pokemonForm = document.getElementById('pokemon-form');
+const productForm = document.getElementById('product-form');
 
 //Call toggleForm to minimize the form initially
-toggleForm(pokemonForm);
+toggleForm(productForm);
 
 
 function toggleForm() {
-  const form = document.getElementById("pokemon-form");
+  const form = document.getElementById("product-form");
   const minimizeButton = document.getElementById("minimize-form");
   if (form.style.display === "none") {
     form.style.display = "block";
@@ -158,8 +158,9 @@ searchInput.addEventListener("input", function() {
 
 
 
-//Update pokemon data function
-function updatePokemon(id, name, productLink, normalPris, link, tilbudsPris) {
+//Update product data function
+function updateProduct(id, name, productLink, normalPris, link, tilbudsPris) {
+  dialog.close();
   fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
     method: 'PUT',
     body: JSON.stringify({
@@ -177,8 +178,8 @@ function updatePokemon(id, name, productLink, normalPris, link, tilbudsPris) {
 
 
 
-//Delete pokemon data function using id
-function deletePokemon(id) {
+//Delete product data function using id
+function deleteProduct(id) {
   fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
     method: 'DELETE'
   })
@@ -189,61 +190,58 @@ function deletePokemon(id) {
     return response.json();
   })
   .then(data => {
-    console.log('Pokemon successfully deleted:', data);
+    console.log('product successfully deleted:', data);
   })
   .catch(error => {
-    console.error('There was a problem deleting the Pokemon:', error);
+    console.error('There was a problem deleting the product:', error);
   });
 }
 
 
-//Display pokemon cards and dialog (NOT REST CALL)
-var pokemonCards = document.getElementById("pokemon-cards");
+//Display product cards and dialog (NOT REST CALL)
+var productCards = document.getElementById("product-cards");
 database.ref('product').on('child_added', function(data) {
-  var pokemon = data.val();
+  var product = data.val();
   var card = document.createElement("div");
-  card.className = "pokemon-card";
+  card.className = "product-card";
   card.id = "card-" + data.key;
-  card.innerHTML = "<h1 style='text-align: center;'>" + pokemon.name + "</h1>";
-  if (pokemon.link.includes("http")) {
-    card.innerHTML += "<img src='" + pokemon.link + "'>";
+  card.innerHTML = "<h1 style='text-align: center;'>" + product.name + "</h1>";
+  if (product.link.includes("http")) {
+    card.innerHTML += "<img src='" + product.link + "'>";
   }
 
-  card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + pokemon.normalPris + "</span> <strong>" + pokemon.tilbudsPris +"</strong></h3>";
-  card.innerHTML += "<p>" + "Oprettet:" + " " + pokemon.createdAt + "</p>";
+  card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + product.normalPris + "</span> <strong>" + product.tilbudsPris +"</strong></h3>";
+  card.innerHTML += "<p>" + "Oprettet:" + " " + product.createdAt + "</p>";
   card.innerHTML += "<button style='width: 30%; display: block; margin: 0 auto;' class='view-more-btn'>Se mere</button>";
 
   var button = card.querySelector('.view-more-btn');
   button.style.textAlign = "center";
   
-  pokemonCards.appendChild(card);
+  productCards.appendChild(card);
   var dialog = document.createElement("dialog");
   dialog.innerHTML = "";
   
 
   database.ref('product').on('child_removed', function(data) {
-    var pokemonCard = document.getElementById("card-" + data.key);
-    if (pokemonCard != null) {
-      pokemonCard.remove();
+    var productCard = document.getElementById("card-" + data.key);
+    if (productCard != null) {
+      productCard.remove();
     }
   });
   
   
-  if (!pokemon.productLink.includes("http")) {
+  if (!product.productLink.includes("http")) {
     console.log("issue")
     dialog.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
   } else {
-    dialog.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + pokemon.productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
+    dialog.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + product.productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
     console.log("No issue")
     
   }
   
-
-
   
-  
-  dialog.innerHTML += "<button class='editBtn' onclick='editPokemon(\"" + data.key + "\", \"" + pokemon.name + "\", \"" + pokemon.productLink + "\", \"" + pokemon.normalPris + "\", \"" + pokemon.link + "\", \"" + pokemon.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
-"<button onclick='deletePokemon(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
+  dialog.innerHTML += "<button class='editBtn' onclick='editProduct(\"" + data.key + "\", \"" + product.name + "\", \"" + product.productLink + "\", \"" + product.normalPris + "\", \"" + product.link + "\", \"" + product.tilbudsPris + "\")' style='cursor: pointer; background-color: #ffcb05; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Opdater</button>" +
+"<button onclick='deleteProduct(\"" + data.key + "\")' style=' cursor: pointer; background-color: #f44336; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-right: 10px; border: none; border-radius: 5px;'>Slet tilbud</button>" +
 "<button class='close-dialog-btn' style=' cursor: pointer; background-color: #ccc; color: #333; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px;'>Luk</button>";
  ;
   dialog.id = "dialog-" + data.key;
@@ -253,7 +251,7 @@ database.ref('product').on('child_added', function(data) {
   var updateMaximize = card.querySelector('.editBtn');
   updateMaximize.addEventListener('click', function() {
     console.log("TEST")
-    toggleForm(pokemonForm);
+    toggleForm(productForm);
   });
 
 
@@ -261,6 +259,7 @@ database.ref('product').on('child_added', function(data) {
   viewMoreBtn.addEventListener('click', function() {
     var dialog = document.querySelector("#dialog-" + data.key);
     dialog.showModal();
+    
   });
   var closeDialogBtn = dialog.querySelector(".close-dialog-btn");
   closeDialogBtn.addEventListener("click", function() {
@@ -270,8 +269,8 @@ database.ref('product').on('child_added', function(data) {
 
 
 
-//Edit pokemon data
-function editPokemon(id, name, productLink, normalPris, link, tilbudsPris) {
+//Edit product data
+function editProduct(id, name, productLink, normalPris, link, tilbudsPris) {
   document.getElementById("name").value = name;
 
   document.getElementById("productLink").value = productLink;
@@ -281,16 +280,18 @@ function editPokemon(id, name, productLink, normalPris, link, tilbudsPris) {
 
 
 
+  dialog.close();
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
 
-  document.getElementById('pokemon-add').style.visibility = 'hidden';
-  var updateButton = document.getElementById("update-pokemon-button");
+
+  document.getElementById('product-add').style.visibility = 'hidden';
+  var updateButton = document.getElementById("update-product-button");
   updateButton.style.display = "block";
   updateButton.onclick = function() {
-    updatePokemon(id, document.getElementById("name").value, document.getElementById("productLink").value, document.getElementById("normalPris").value, document.getElementById("link").value, document.getElementById("tilbudsPris").value);
-    
-    document.getElementById("add-pokemon-button").innerHTML = "Add Pokemon";
-    document.getElementById("add-pokemon-button").onclick = addProduct;
-    document.getElementById("pokemon-form").reset();
+    updateProduct(id, document.getElementById("name").value, document.getElementById("productLink").value, document.getElementById("normalPris").value, document.getElementById("link").value, document.getElementById("tilbudsPris").value);
+    document.getElementById("add-product-button").innerHTML = "Add Product";
+    document.getElementById("add-product-button").onclick = addProduct;
+    document.getElementById("product-form").reset();
   };
 }
 
