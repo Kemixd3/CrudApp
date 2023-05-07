@@ -1,8 +1,6 @@
 "use strict";
-
-
 var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
+window.onscroll = function () {
   var currentScrollPos = window.pageYOffset;
   if (prevScrollpos > currentScrollPos) {
     document.getElementById("myHeader").style.top = "0";
@@ -15,8 +13,8 @@ window.onscroll = function() {
 
 
 
-const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app";
 
+const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app";
 
 //Initialize Firebase realtime database
 var firebaseConfig = {
@@ -52,7 +50,7 @@ async function addProduct() {
   var date = new Date();
   var options1 = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'Europe/Copenhagen' };
   var formattedDate = date.toLocaleString('da-DK', options1);
-  
+
   //Push product data to the database
 
   const url = 'https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product.json';
@@ -65,7 +63,7 @@ async function addProduct() {
     tilbudsPris: tilbudsPris,
     createdAt: formattedDate // Add current date to the data object
   };
-  
+
   const options = {
     method: 'POST',
     body: JSON.stringify(data),
@@ -73,15 +71,15 @@ async function addProduct() {
       'Content-Type': 'application/json'
     }
   };
+
   
   await fetch(url, options)
+
     .then(response => response.json())
     .then(data => console.log('New product added:', data))
     .catch(error => console.error('Error adding new product:', error));
 
-  
   //Clear form fields
-  // <textarea id="normalPris" name="normalPris" required></textarea><br>
   document.getElementById("name").value = "";
   document.getElementById("normalPris").value = "";
   document.getElementById("link").value = "";
@@ -89,11 +87,9 @@ async function addProduct() {
   document.getElementById("tilbudsPris").value = "";
 
   location.reload();
-}
 
-  
 
-const productForm = document.getElementById('pokemon-form');
+const productForm = document.getElementById('product-form');
 
 //Call toggleForm to minimize the form initially
 toggleForm(productForm);
@@ -112,67 +108,51 @@ function toggleForm() {
 }
 
 
-
-
-
-
-
-
 var searchInput = document.getElementById("search");
 var resultsDiv = document.getElementById("results");
 
 // Attach a keyup event listener to the search input
-searchInput.addEventListener("input", function() {
+searchInput.addEventListener("input", function () {
   var searchTerm = searchInput.value;
-  document.addEventListener("keydown", function(event) {
-    if (event.keyCode === 13 && searchTerm !=' ') { // Check if searchTerm is not empty
+  document.addEventListener("keydown", function (event) {
+    if (event.keyCode === 13 && searchTerm != ' ') { // Check if searchTerm is not empty
       fetch("https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product.json?orderBy=\"name\"")
-      .then(response => response.json())
-      .then(data => {
-        // Clear previous results
-        resultsDiv.innerHTML = "";
-  
-        // Display the results
-        for (var key in data) {
-          if (data.hasOwnProperty(key)) {
-            if (String(data[key].name).toLowerCase().includes(searchTerm.toLowerCase())) {
-              console.log(data[key]);
-              var card = document.createElement("div");
-              card.innerHTML = "<h3>" + data[key].name + "</h3>" +
-              "<img style='max-width:300px' src='" + data[key].link + "' alt='" + data[key].name + "'>" +
-              "<p></p>";
-            card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + data[key].normalPris + "</span> <strong>" + data[key].tilbudsPris +"</strong></h3>";
-            if (!String(data[key].productLink).includes("http")) {
-              console.log("issue")
-              card.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
-            } else {
-              card.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + data[key].productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
-              console.log("No issue")
-            }
-            // Add styles to the card element
-            card.style.border = "1px solid #ccc";
-            card.style.padding = "10px";
-            
-            resultsDiv.appendChild(card);
-            
+        .then(response => response.json())
+        .then(data => {
+          // Clear previous results
+          resultsDiv.innerHTML = "";
+
+          // Display the results
+          for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+              if (String(data[key].name).toLowerCase().includes(searchTerm.toLowerCase())) {
+                console.log(data[key]);
+                var card = document.createElement("div");
+                card.innerHTML = "<h3>" + data[key].name + "</h3>" +
+                  "<img style='max-width:300px' src='" + data[key].link + "' alt='" + data[key].name + "'>" +
+                  "<p></p>";
+                card.innerHTML += "<h3 style='text-align: center;'>Pris: <span style='text-decoration: line-through; color: grey;'>" + data[key].normalPris + "</span> <strong>" + data[key].tilbudsPris + "</strong></h3>";
+                if (!String(data[key].productLink).includes("http")) {
+                  console.log("issue")
+                  card.innerHTML += "<h2>" + "Linket til produktsiden er ugyldigt" + "" + "</a>" + "</h2>";
+                } else {
+                  card.innerHTML += "<h2>" + "Link til produkt siden" + " " + "<a href='" + data[key].productLink + "' target='_blank'>" + "Her" + "</a>" + "</h2>";
+                  console.log("No issue")
+                }
+                // Add styles to the card element
+                card.style.border = "1px solid #ccc";
+                card.style.padding = "10px";
+
+                resultsDiv.appendChild(card);
+
+              }
             }
           }
-        }
-      })
-      .catch(error => console.error(error));
+        })
+        .catch(error => console.error(error));
     }
   });
 });
-
-
-
-
-
-
-  // Get the search term
-
-
-
 
 
 //Delete product data function using id
@@ -180,6 +160,7 @@ async function deleteProduct(id) {
   await fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
     method: 'DELETE'
   })
+
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -245,21 +226,24 @@ async function init() {
       card.appendChild(dialog);
   
 
+
   var updateMaximize = card.querySelector('.editBtn');
-  updateMaximize.addEventListener('click', function() {
+  updateMaximize.addEventListener('click', function () {
     console.log("TEST")
     toggleForm(productForm);
     dialog.close();
   });
 
   var viewMoreBtn = card.querySelector('.view-more-btn');
+
   viewMoreBtn.addEventListener('click', function() {
     var dialog = document.querySelector("#dialog-" + key);
+
     dialog.showModal();
-    
+
   });
   var closeDialogBtn = dialog.querySelector(".close-dialog-btn");
-  closeDialogBtn.addEventListener("click", function() {
+  closeDialogBtn.addEventListener("click", function () {
     dialog.close();
   });
 };
@@ -278,21 +262,21 @@ async function editProduct(id, name, productLink, link, normalPris, createdAt, t
   document.getElementById("productLink").value = productLink;
   document.getElementById("link").value = link;
   document.getElementById("normalPris").value = normalPris;
-  
+
   document.getElementById("tilbudsPris").value = tilbudsPris;
   console.log(id)
   document.getElementById('product-add').style.visibility = 'hidden';
   var updateButton = document.getElementById("update-product-button");
   updateButton.style.display = "block";
-  updateButton.onclick = async function() {
+  updateButton.onclick = async function () {
     console.log("runs");
-    
+
     var updatedName = document.getElementById("name").value;
     var updatedProductLink = document.getElementById("productLink").value;
     var updatedLink = document.getElementById("link").value;
     var updatedNormalPris = document.getElementById("normalPris").value;
     var updatedTilbudsPris = document.getElementById("tilbudsPris").value;
-    
+
     try {
       const response = await fetch('https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app/product/' + id + '.json', {
         method: 'PUT',
@@ -307,14 +291,10 @@ async function editProduct(id, name, productLink, link, normalPris, createdAt, t
           tilbudsPris: updatedTilbudsPris,
           link: updatedLink,
           createdAt: createdAt,
-         
+
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
       location.reload();
       return response.json();
     } catch (error) {
@@ -322,8 +302,3 @@ async function editProduct(id, name, productLink, link, normalPris, createdAt, t
     }
   }
 }
-
-
-
-
-
