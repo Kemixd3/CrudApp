@@ -6,14 +6,11 @@ window.addEventListener("scroll", () => {
   const header = document.getElementById("myHeader");
   header.style.top = prevScrollpos > currentScrollPos ? "0" : "-150px";
   prevScrollpos = currentScrollPos;
-  });
+});
 
 const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app";
 
 //Initialize Firebase realtime database
-
-
-
 window.addEventListener("load", init);
 
 //Handle form submission
@@ -27,9 +24,6 @@ async function addProduct() {
   var date = new Date();
   var options1 = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'Europe/Copenhagen' };
   var formattedDate = date.toLocaleString('da-DK', options1);
-
-
-  //Push product data to the database
 
   const url = `${endpoint}/product.json`;
   const data = {
@@ -59,10 +53,6 @@ async function addProduct() {
   form.reset();
   location.reload();
 
-
-
- 
-
   //Call toggleForm to minimize the form initially
   toggleForm();
 }
@@ -78,7 +68,6 @@ function toggleForm() {
     minimizeButton.innerHTML = "Tilføj nyt tilbud";
   }
 }
-
 
 const searchInput = document.getElementById("search");
 const resultsDiv = document.getElementById("results");
@@ -115,7 +104,7 @@ async function deleteProduct(id) {
   await fetch(`${endpoint}/product/${id}.json`, {
     method: 'DELETE'
   })
-  
+
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -131,17 +120,37 @@ async function deleteProduct(id) {
   location.reload();
 
 }
+toggleForm();
 
 //Display product cards and dialog (NOT REST CALL)
 var productCards = document.getElementById("product-cards");
 
+//sort Button
+
+sortMenu.addEventListener("change", function () {
+  init()
+});
 async function init() {
-  toggleForm();
   await fetch(`${endpoint}/product.json`)
     .then(response => response.json())
     .then(data => {
-      for (const key in data) {
-        const product = data[key];
+
+      let sortedData = [];
+      var sortState = document.getElementById("sortMenu").value;
+      if (sortState === 'lowest') {
+        sortedData = Object.values(data).sort((b, a) => a.tilbudsPris - b.tilbudsPris);
+      } else if (sortState === 'highest') {
+        sortedData = Object.values(data).sort((a, b) => a.tilbudsPris - b.tilbudsPris);
+      } else {
+        sortedData = Object.values(data);        
+      }
+
+      // Clear the productCards element
+      productCards.innerHTML = '';
+
+      for (let product of sortedData) {
+
+        const key = Object.keys(data).find(k => data[k] === product);
         const card = document.createElement("div");
         card.className = "product-card";
         card.id = "card-" + key;
@@ -199,6 +208,7 @@ async function init() {
         });
       };
     });
+
 }
 
 //Edit product data
