@@ -1,53 +1,50 @@
 form {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  form label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  form button[type="button"] {
-    display: block;
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  
-  .pokemon-card {
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    min-height: 100px;
-  }
-  
-  .pokemon-card h2 {
-    margin-top: 0;
-  }
-  
-  .pokemon-card img {
-    max-width: 100%;
-  }
-  
-  
+form label {
+  display: block;
+  margin-bottom: 10px;
+}
 
+form input[type="text"] {
+  width: 98%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button[type="button"] {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-card {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+  border: 2px solid #ccc;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.product-card h2 {
+  margin-top: 0;
+}
+
+.product-card img {
+  max-width: 100%;
+}
 
 #minimize-form:hover {
   background-color: #075eff;
@@ -61,80 +58,68 @@ form {
   transform: translateY(0px);
 }
 
-
-
-
-
-.pokemon-card h2 {
-margin-top: 0;
+.product-card h2 {
+  margin-top: 0;
 
 }
 
-.pokemon-card img {
-width: 500px;
-height: 200px;
-object-fit: contain;
+.product-card img {
+  width: 30%;
+  height: auto;
+  object-fit: contain;
 }
 
 .view-more-btn {
-background-color: indigo;
-border: none;
-color: white;
-padding: 10px 20px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-margin-top: 10px;
-border-radius: 5px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+  background-color: indigo;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .view-more-btn:hover {
-background-color: green;
+  background-color: green;
 }
 
 .close-dialog-btn {
-background-color: #ccc;
-border: none;
-color: #fff;
-padding: 10px 20px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-margin-top: 10px;
-border-radius: 5px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+  background-color: #ccc;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .close-dialog-btn:hover {
-background-color: #999;
+  background-color: #999;
 }
 
-.pokemon-grid {
-  display: grid;
-  
-  grid-template-rows: auto;
- 
-
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
 
-#pokemon-cards {
-  display: grid;
-  
+#product-cards {
   grid-template-rows: auto;
-  margin-right: 0px;
-  max-width: 1000px;
-  
+  max-width: 50%;
   justify-content: center;
   align-items: center;
 }
-
 
 
 body {
@@ -144,34 +129,59 @@ body {
   background-color: #f7f7f7;
 }
 
-
-header, footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100px;
-  width: 100%;
-  background-color: #075eff;
-  
+.sort-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
 }
 
-header h1, footer h3 {
+
+
+
+
+.sort-select {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+
+.sort-select {
+  display: block;
+  width: 200px;
+  height: 40px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: bold;
   color: #333;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-
-
-footer .pokeball:before, footer .pokeball:after {
-  transform: scaleX(-1);
-  
-
+.sort-select:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
+.sort-select:focus {
+  outline: none;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 
+.fade-in {
+  animation: fadeIn 0.5s;
+}
 
-
-
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
