@@ -1,12 +1,14 @@
 "use strict";
-const prevScrollpos = window.pageYOffset;
-
-window.addEventListener("scroll", () => {
-  const currentScrollPos = window.pageYOffset;
-  const header = document.getElementById("myHeader");
-  header.style.top = prevScrollpos > currentScrollPos ? "0" : "-150px";
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function () {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("myHeader").style.top = "0";
+  } else {
+    document.getElementById("myHeader").style.top = "-150px"; // Hide the header when scrolling down
+  }
   prevScrollpos = currentScrollPos;
-});
+}
 
 const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebasedatabase.app";
 
@@ -129,6 +131,7 @@ var productCards = document.getElementById("product-cards");
 
 sortMenu.addEventListener("change", function () {
   init()
+  productCards.classList.remove("fade-in");
 });
 async function init() {
   await fetch(`${endpoint}/product.json`)

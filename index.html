@@ -22,11 +22,14 @@
     </div>
   </header>
   
-  <select id="sortMenu">
+  <label for="sortMenu" class="sort-label">Sort by:</label>
+  <select id="sortMenu" class="sort-select">
     <option value="unsorted">Unsorted</option>
     <option value="highest">Price: High to Low</option>
     <option value="lowest">Price: Low to High</option>
   </select>
+  
+  
 
   <form id="product-form" style="display:block;" hidden>
     <h3>Her kan du tilføje et nyt produkt til tilbudskataloget ved at trykke "Tilgøj produkt" knappen<br>For at redigere
@@ -50,11 +53,11 @@
     <div id="product-cards"></div>
   </div>
 
-  <footer style="font-size: 1vw; height: 8%; background-color: rgb(154, 154, 159); bottom: 0; left: 0; right: 0;">
-    <div class="productC"></div>
+  <footer style="font-size: 1vw; height: 20%; background-color: rgb(154, 154, 159); margin-top: 100px; bottom: 0%; left: 0; right: 0;">
+    
     <h3>Tilbudskatalog koncept hjemmeside</h3>
     <h3>Produkt catalog by Nikolai Berthesen and Silas Sandager, DATAv2</h3>
-    <div class="productC"></div>
+   
   </footer>
 
   <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
