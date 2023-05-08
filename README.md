@@ -1,3 +1,3 @@
 Github pages here:
 
-https://kemixd3.github.io/pokemon/
+https://github.com/Kemixd3/CrudApp
