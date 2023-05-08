@@ -1,4 +1,5 @@
 "use strict";
+
 var prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
   var currentScrollPos = window.pageYOffset;
@@ -15,7 +16,7 @@ const endpoint = "https://javascriptgame-4e4c9-default-rtdb.europe-west1.firebas
 //Initialize Firebase realtime database
 window.addEventListener("load", init);
 
-//Handle form submission
+//=====Ddd new products using POST request=======
 async function addProduct() {
   //Get form values from the form
   var name = document.getElementById("name").value;
@@ -100,7 +101,7 @@ searchInput.addEventListener("input", async () => {
   }
 });
 
-//Delete product data function using id
+//======Delete product data function using id Delete request=======
 async function deleteProduct(id) {
 
   await fetch(`${endpoint}/product/${id}.json`, {
@@ -133,6 +134,8 @@ sortMenu.addEventListener("change", function () {
   init()
   productCards.classList.remove("fade-in");
 });
+
+//========Function to display the products using FETCH GET request=======
 async function init() {
   await fetch(`${endpoint}/product.json`)
     .then(response => response.json())
@@ -214,7 +217,7 @@ async function init() {
 
 }
 
-//Edit product data
+//======Function to edit product data using PUT request========
 async function editProduct(id, name, productLink, link, normalPris, createdAt, tilbudsPris) {
   document.getElementById("name").value = name;
   document.getElementById("productLink").value = productLink;
